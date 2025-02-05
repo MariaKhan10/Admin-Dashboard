@@ -50,7 +50,7 @@ export default function AdminLogin() {
         />
         <button
           type="submit"
-          className="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded w-full"
+          className="bg-orange-500 hover:bg-red-700 text-white px-4 py-2 rounded w-full"
         >
           Login
         </button>
