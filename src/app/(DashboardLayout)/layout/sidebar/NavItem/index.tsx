@@ -1,5 +1,4 @@
 import React from "react";
-// mui imports
 import {
   ListItemIcon,
   ListItem,
@@ -11,29 +10,28 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-type NavGroup = {
-  [x: string]: any;
+interface NavGroup {
   id?: string;
   navlabel?: boolean;
   subheader?: string;
   title?: string;
-  icon?: any;
-  href?: any;
-  onClick?: React.MouseEvent<HTMLButtonElement, MouseEvent>;
-};
+  icon?: React.ElementType; // ✅ Corrected icon type
+  href?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean;
+  external?: boolean;
+}
 
 interface ItemType {
   item: NavGroup;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
-  hideMenu?: any;
-  level?: number | any;
+  hideMenu?: boolean;
+  level?: number;
   pathDirect: string;
 }
 
-const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
-  const Icon = item.icon;
+const NavItem = ({ item, level = 1, pathDirect, onClick }: ItemType) => {
   const theme = useTheme();
-  const itemIcon = <Icon stroke={1.5} size="1.3rem" />;
 
   const ListItemStyled = styled(ListItem)(() => ({
     padding: 0,
@@ -45,20 +43,18 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
       backgroundColor: level > 1 ? "transparent !important" : "inherit",
       color: theme.palette.text.secondary,
       paddingLeft: "10px",
-     "&:hover": {
-  backgroundColor: "#FB8C00", // Darker orange
-  color: "#FFFFFF", // White text
-},
-
-     "&.Mui-selected": {
-  color: "white", // Text color when selected
-  backgroundColor: "#FB8C00", // Darker orange for selected state
-  "&:hover": {
-    backgroundColor: "#FB8C00", // Keep the same orange on hover
-    color: "white", // White text on hover
-  },
-}
-
+      "&:hover": {
+        backgroundColor: "#FB8C00",
+        color: "#FFFFFF",
+      },
+      "&.Mui-selected": {
+        color: "white",
+        backgroundColor: "#FB8C00",
+        "&:hover": {
+          backgroundColor: "#FB8C00",
+          color: "white",
+        },
+      },
     },
   }));
 
@@ -67,24 +63,25 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
       <ListItemStyled>
         <ListItemButton
           component={Link}
-          href={item.href}
+          href={item.href || "#"}
           disabled={item.disabled}
           selected={pathDirect === item.href}
           target={item.external ? "_blank" : ""}
           onClick={onClick}
         >
-          <ListItemIcon
-            sx={{
-              minWidth: "36px",
-              p: "3px 0",
-              color: "inherit",
-            }}
-          >
-            {itemIcon}
-          </ListItemIcon>
-          <ListItemText>
-            <>{item.title}</>
-          </ListItemText>
+          {item.icon && (
+            <ListItemIcon
+              sx={{
+                minWidth: "36px",
+                p: "3px 0",
+                color: "inherit",
+              }}
+            >
+              {React.createElement(item.icon, { fontSize: "small" })} 
+              {/* ✅ Correct way to use dynamic icons */}
+            </ListItemIcon>
+          )}
+          <ListItemText>{item.title}</ListItemText>
         </ListItemButton>
       </ListItemStyled>
     </List>

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
@@ -38,8 +37,8 @@ export default function AdminProducts() {
           available
         }`
       )
-      .then((data) => {
-        const formattedData: Product[] = data.map((product: any) => ({
+      .then((data: Product[]) => { // ✅ Explicit type for fetched data
+        const formattedData: Product[] = data.map((product) => ({
           _id: product._id,
           name: product.name || "",
           category: product.category || "",
@@ -50,13 +49,11 @@ export default function AdminProducts() {
           description: product.description || "",
           available: product.available ?? true,
         }));
-  
+
         setProducts(formattedData);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
-  
-  
 
   const filteredProducts =
     filter === "All" ? products : products.filter((product) => product.category === filter);
@@ -109,23 +106,22 @@ export default function AdminProducts() {
         };
       },
     });
-  
+
     if (!formValues) return;
-  
+
     try {
       await client.patch(product._id).set(formValues).commit();
-  
+
       setProducts((prevProducts) =>
         prevProducts.map((p) => (p._id === product._id ? { ...p, ...formValues } : p))
       );
-  
+
       Swal.fire("Updated!", "Product details have been updated.", "success");
     } catch (error) {
       console.error("Error updating product:", error);
       Swal.fire("Error!", "Something went wrong while updating.", "error");
     }
   };
-  
 
   const handleAddProduct = async () => {
     const { value: formValues } = await Swal.fire({
@@ -179,9 +175,7 @@ export default function AdminProducts() {
             {["All", "Drink", "Fast Food", "Bakery"].map((category) => (
               <button
                 key={category}
-                className={`px-4 py-2 text-xs sm:text-base rounded-lg transition-all ${
-                  filter === category ? "bg-white text-green-600 font-bold" : "text-white"
-                }`}
+                className={`px-4 py-2 text-xs sm:text-base rounded-lg transition-all ${filter === category ? "bg-white text-green-600 font-bold" : "text-white"}`}
                 onClick={() => setFilter(category)}
               >
                 {category}
@@ -201,34 +195,30 @@ export default function AdminProducts() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <div key={product._id} className="bg-white shadow-md p-4 rounded-lg relative flex flex-col">
-               <Image
-  src={product.image ? urlFor(product.image).url() : "/placeholder-image.jpg"}
-  width={150}
-  height={150}
-  alt={product.name}
-  className="w-full h-40 object-cover rounded"
-/>
-
+                <Image
+                  src={product.image ? urlFor(product.image).url() : "/placeholder-image.jpg"}
+                  width={150}
+                  height={150}
+                  alt={product.name}
+                  className="w-full h-40 object-cover rounded"
+                />
                 <h3 className="text-lg font-bold mt-2">{product.name}</h3>
                 <p className="text-sm text-gray-500">{product.category}</p>
                 <p className="text-red-500 font-bold">{product.price}/-</p>
-                <p className="text-sm mt-1">{product.description}</p>
-
-                <div className="mt-auto flex justify-between space-x-2">
-  <button
-    onClick={() => handleEdit(product)}
-    className="bg-yellow-500 text-white px-8 mt-2 py-2 rounded hover:bg-yellow-700 transition w-full sm:w-auto"
-  >
-    Edit
-  </button>
-  <button
-    onClick={() => handleDelete(product._id)}
-    className="bg-red-500 text-white px-6 mt-2 py-2 rounded hover:bg-red-700 transition w-full sm:w-auto"
-  >
-    Delete
-  </button>
-</div>
-
+                <div className="absolute top-2 right-2">
+                  <button
+                    onClick={() => handleEdit(product)}
+                    className="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded ml-2 hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>

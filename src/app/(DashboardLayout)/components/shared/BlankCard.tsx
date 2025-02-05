@@ -1,8 +1,9 @@
+import React, { ReactNode } from "react";
 import { Card } from "@mui/material";
 
 type Props = {
   className?: string;
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode; // JSX.Element ka replacement
 };
 
 const BlankCard = ({ children, className }: Props) => {
@@ -11,7 +12,7 @@ const BlankCard = ({ children, className }: Props) => {
       sx={{ p: 0, position: "relative" }}
       className={className}
       elevation={9}
-      variant={undefined}
+      variant="outlined" // `undefined` hata diya
     >
       {children}
     </Card>

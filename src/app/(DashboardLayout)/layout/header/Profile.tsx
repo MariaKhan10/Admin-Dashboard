@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import Link from "next/link";
+import React, { useState, MouseEvent } from "react"; // ✅ Correct type imported
 import {
   Box,
   Menu,
@@ -16,9 +14,9 @@ import {
 import { IconChevronDown } from "@tabler/icons-react";
 
 const Profile = () => {
-  const [anchorEl2, setAnchorEl2] = useState(null);
-  
-  const handleClick2 = (event: any) => {
+  const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null); // ✅ Correct type
+
+  const handleClick2 = (event: MouseEvent<HTMLButtonElement>) => { // ✅ Fix for `any`
     setAnchorEl2(event.currentTarget);
   };
 
@@ -39,7 +37,6 @@ const Profile = () => {
     window.location.href = "/"; // Redirect to login page
   };
   
-
   return (
     <Box>
       <IconButton size="large" aria-label="menu" color="inherit" onClick={handleClick2}>

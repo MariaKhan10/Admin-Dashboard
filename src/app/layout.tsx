@@ -39,7 +39,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen,] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname(); // ✅ Get current path
 
