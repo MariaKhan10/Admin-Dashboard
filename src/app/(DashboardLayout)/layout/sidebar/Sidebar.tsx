@@ -6,9 +6,12 @@ import Upgrade from "./Updrade";
 
 interface ItemType {
   isMobileSidebarOpen: boolean;
-  onSidebarClose: (event: React.MouseEvent<HTMLElement>) => void;
+  onSidebarClose: (event?: React.MouseEvent<HTMLElement>) => void;
   isSidebarOpen: boolean;
 }
+
+
+
 
 const Sidebar = ({
   isMobileSidebarOpen,
@@ -17,6 +20,14 @@ const Sidebar = ({
 }: ItemType) => {
   const theme = useTheme(); // ✅ Get MUI theme
   const lgUp = useMediaQuery(theme.breakpoints.up("lg")); // ✅ Properly use theme
+
+  const handleSidebarClose = () => {
+    if (onSidebarClose) {
+      onSidebarClose(); // Call the function without passing an event
+    }
+  };
+  
+  
 
   const sidebarWidth = "270px";
 
@@ -43,19 +54,14 @@ const Sidebar = ({
           }}
         >
           {/* Sidebar Content */}
-          <Box
-            sx={{
-              height: "100%",
-            }}
-            py={2}
-          >
+          <Box sx={{ height: "100%" }} py={2}>
             {/* Logo */}
             <Box px={2}>
               <Logo />
             </Box>
             {/* Sidebar Items */}
             <Box mt={3}>
-              <SidebarItems />
+              <SidebarItems toggleMobileSidebar={() => onSidebarClose()} />
               <Upgrade />
             </Box>
           </Box>
@@ -66,22 +72,23 @@ const Sidebar = ({
 
   return (
     <Drawer
-      anchor="left"
-      open={isMobileSidebarOpen}
-      onClose={onSidebarClose}
-      variant="temporary"
-      PaperProps={{
-        sx: {
-          width: sidebarWidth,
-          boxShadow: theme.shadows[8], // ✅ Now properly accessing theme
-        },
-      }}
-    >
+    anchor="left"
+    open={isMobileSidebarOpen}
+    onClose={handleSidebarClose} // ✅ Fix: MUI expects this function signature
+    variant="temporary"
+    PaperProps={{
+      sx: {
+        width: sidebarWidth,
+        boxShadow: theme.shadows[8],
+      },
+    }}
+  >
+  
       {/* Sidebar for Mobile */}
       <Box px={2} py={2}>
         <Logo />
       </Box>
-      <SidebarItems />
+      <SidebarItems toggleMobileSidebar={() => onSidebarClose()} />
       <Upgrade />
     </Drawer>
   );
