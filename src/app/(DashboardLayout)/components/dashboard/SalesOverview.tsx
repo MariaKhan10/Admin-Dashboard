@@ -1,16 +1,18 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
+import { ApexOptions } from "apexcharts"; // Import correct type
 import BaseCard from "../shared/DashboardCard";
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const SalesOverview = () => {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
   const secondary = theme.palette.secondary.main;
 
-  const optionssalesoverview: any = {
+  // Correct Type for Chart Options
+  const optionssalesoverview: ApexOptions = {
     grid: {
       show: true,
       borderColor: "transparent",
@@ -25,7 +27,6 @@ const SalesOverview = () => {
       bar: {
         horizontal: false,
         columnWidth: "42%",
-        endingShape: "rounded",
         borderRadius: 5,
       },
     },
@@ -98,7 +99,9 @@ const SalesOverview = () => {
       theme: "dark",
     },
   };
-  const seriessalesoverview: any = [
+
+  // Correct Type for Series
+  const seriessalesoverview: ApexAxisChartSeries = [
     {
       name: "Ample Admin",
       data: [355, 390, 300, 350, 390, 180, 355, 390, 300, 350, 390, 180],
@@ -108,8 +111,8 @@ const SalesOverview = () => {
       data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
     },
   ];
+
   return (
-    
     <BaseCard title="Sales Overview">
       <Chart
         options={optionssalesoverview}
