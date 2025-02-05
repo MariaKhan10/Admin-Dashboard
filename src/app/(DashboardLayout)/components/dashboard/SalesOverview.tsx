@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
 import BaseCard from "../shared/DashboardCard";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-import { Card, CardContent, Typography } from "@mui/material";
+
 
 const SalesOverview = () => {
   const theme = useTheme();
