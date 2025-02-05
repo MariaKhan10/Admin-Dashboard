@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "preserve", // For React 17 and above,
     "noImplicitAny": false,
     "target": "ES2017",
     "lib": [
