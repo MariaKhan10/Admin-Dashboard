@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ✅ Hide Sidebar, Header, and Footer Only on Admin Login Page */
+.hide-layout .sidebar,
+.hide-layout .header,
+.hide-layout .footer {
+  display: none !important;
+  visibility: hidden;
+  height: 0;
+}
+

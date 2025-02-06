@@ -1,8 +1,7 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
 import React from "react";
-
-// import Sidebar from "@/app/(DashboardLayout)/layout/sidebar/Sidebar";
+import { usePathname } from "next/navigation";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -24,6 +23,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  // ✅ Agar Admin Login page hai, to layout remove kar do
+  if (pathname === "/admin") {
+    return <>{children}</>;
+  }
+
   return (
     <MainWrapper className="mainwrapper">
       <PageWrapper className="page-wrapper">

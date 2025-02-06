@@ -44,16 +44,14 @@ export default function RootLayout({
   const pathname = usePathname(); // ✅ Get current path
 
   // ✅ Agar admin login page hai, to sirf login page render karein
-  if (pathname === "/") {
+  // ✅ Agar page "/admin" ya "/" (home) hai, to sidebar/header/footer hata do
+  if (pathname === "/admin" || pathname === "/") {
     return (
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {children} {/* Sirf admin login page render hoga */}
-        </body>
+        <body className="antialiased">{children}</body>
       </html>
     );
   }
-
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

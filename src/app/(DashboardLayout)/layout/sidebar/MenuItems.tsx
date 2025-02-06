@@ -14,7 +14,7 @@ const Menuitems = [
    id: uniqueId(),
    title: "Dashboard",
    icon: IconHome,
-   href: "/",
+   href: "/ui-components/dashboard",
  },
  {
    id: uniqueId(),
